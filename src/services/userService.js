@@ -14,7 +14,7 @@ let handleUserLogin = (email, password) => {
         if (user) {
           let hasPassword = await compareUserPassword(email, password);
           if (hasPassword) {
-            userData.errCode = 1;
+            userData.errCode = 0;
             userData.errMessage = "Ok";
             userData.user = user;
           } else {
