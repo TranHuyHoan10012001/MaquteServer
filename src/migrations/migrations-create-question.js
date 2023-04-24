@@ -3,7 +3,7 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable("Questions", {
-      questionId: {
+      id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
@@ -32,10 +32,6 @@ module.exports = {
       author: {
         allowNull: true,
         type: Sequelize.UUID,
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
       },
       createdAt: {
         allowNull: false,

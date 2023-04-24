@@ -13,9 +13,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   Exam.init(
     {
-      examId: DataTypes.INTEGER,
       subject: DataTypes.STRING,
-      questions: DataTypes.ARRAY(DataTypes.STRING),
+      category: DataTypes.STRING,
+      questions: DataTypes.STRING,
       timeLimit: DataTypes.INTEGER,
       maxScore: DataTypes.INTEGER,
     },

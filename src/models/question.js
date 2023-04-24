@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Questions.init(
     {
-      questionId: DataTypes.INTEGER,
       content: DataTypes.STRING,
       key: DataTypes.STRING,
       subject: DataTypes.STRING,
