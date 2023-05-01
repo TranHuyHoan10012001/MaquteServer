@@ -53,8 +53,27 @@ let handleDeleteQuestionService = (questionId) => {
   });
 };
 
+let handleGetQuestionByIdService = (id) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let question = {};
+      question.question = await db.Questions.findOne({
+        where: {
+          id: id,
+        },
+      });
+      question.errCode = 200;
+      question.errMessage = "Get question successfully";
+      resolve(question);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = {
   handleAddQuestionService: handleAddQuestionService,
   handleGetAllQuestionService: handleGetAllQuestionService,
+  handleGetQuestionByIdService: handleGetQuestionByIdService,
   handleDeleteQuestionService: handleDeleteQuestionService,
 };

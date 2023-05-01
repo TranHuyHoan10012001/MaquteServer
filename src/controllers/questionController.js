@@ -33,6 +33,18 @@ const handleGetAllQuestionController = async (req, res) => {
   });
 };
 
+const handleGetQuestionByIdController = async (req, res) => {
+  let questionId = req.query.id;
+  let questionData = await questionService.handleGetQuestionByIdService(
+    questionId
+  );
+  return res.status(200).json({
+    errorCode: questionData.errCode,
+    message: questionData.errMessage,
+    question: questionData.question ? questionData.question : {},
+  });
+};
+
 const handleDeleteQuestionController = async (req, res) => {
   if (!req.body) {
     return res.status(200).json({
@@ -47,5 +59,6 @@ const handleDeleteQuestionController = async (req, res) => {
 module.exports = {
   handleAddQuestionController: handleAddQuestionController,
   handleGetAllQuestionController: handleGetAllQuestionController,
+  handleGetQuestionByIdController: handleGetQuestionByIdController,
   handleDeleteQuestionController: handleDeleteQuestionController,
 };

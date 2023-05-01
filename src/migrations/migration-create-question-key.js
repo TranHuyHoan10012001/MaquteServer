@@ -2,31 +2,20 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("ExamAnalysts", {
+    await queryInterface.createTable("Keys", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      examId: {
+      questionId: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      highGrade: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      commonGrade: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      lowGrade: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      comments: {
         type: Sequelize.STRING,
+      },
+      keyAnswer: {
+        allowNull: false,
+        type: Sequelize.JSON,
       },
       createdAt: {
         allowNull: false,
@@ -39,6 +28,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("ExamAnalysts");
+    await queryInterface.dropTable("Keys");
   },
 };
