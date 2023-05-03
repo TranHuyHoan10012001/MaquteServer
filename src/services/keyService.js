@@ -42,7 +42,21 @@ let handleUpdateKeyService = (questionId, newKeyAnswer) => {
   });
 };
 
+let handleGetAllKeyService = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let allKeyData = {};
+      allKeyData.keys = await db.Keys.findAll();
+      allKeyData.errCode = 200;
+      allKeyData.errMessage = "Get all keys successfully";
+      resolve(allKeyData);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 module.exports = {
   handleCreateKeyService: handleCreateKeyService,
   handleUpdateKeyService: handleUpdateKeyService,
+  handleGetAllKeyService: handleGetAllKeyService,
 };

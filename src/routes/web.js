@@ -7,11 +7,19 @@ import keyController from "../controllers/keyController";
 import examAnalystController from "../controllers/examAnalyst";
 import examService from "../services/examService";
 import multer from "multer";
-var os = require("os");
 
 let router = express.Router();
 
-const uploadFile = multer({ dest: os.tmpdir() });
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + "-" + Date.now());
+  },
+});
+
+const uploadFile = multer({ storage: storage });
 
 let initWebRouter = (app) => {
   router.get("/", homeController.getHomePage);
@@ -48,7 +56,7 @@ let initWebRouter = (app) => {
 
   //Exam Upload file
   router.post(
-    "/api/create-exam",
+    "/api/upload-exam",
     uploadFile.single("file"),
     async function (req, res) {
       let subject = req.body.subject;
@@ -56,23 +64,27 @@ let initWebRouter = (app) => {
       let questions = req.body.questions;
       let timeLimit = req.body.timeLimit;
       let maxScore = req.body.maxScore;
-      let file = req.file;
-      console.log("file: ", file);
+      let file = req.body.file;
+      if (file) res.send(file);
       let newExamData = await examService.handleCreateExamService(
         subject,
         category,
         questions,
         timeLimit,
         maxScore,
-        file.originalname
+        file.name
       );
-      return res.status(200).json({
+      const result = {
         errorCode: newExamData.errCode,
         message: newExamData.errMessage,
         exam: newExamData.exam ? newExamData.exam : "",
-      });
+      };
+      console.log("result: ", result);
+
+      //   return result;
     }
   );
+  router.post("/api/create-exam", examController.handleCreateExamController);
 
   // Key Answer
   router.post("/api/create-key", keyController.handleCreateKeyController);
@@ -80,6 +92,8 @@ let initWebRouter = (app) => {
     "/api/update-question-key",
     keyController.handleUpdateKeyController
   );
+
+  router.get("/api/list-keys", keyController.handleGetAllKeyController);
 
   // Exam Analyst
   router.post(

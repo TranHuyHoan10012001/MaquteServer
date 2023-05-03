@@ -31,7 +31,17 @@ const handleUpdateKeyController = async (req, res) => {
   });
 };
 
+const handleGetAllKeyController = async (req, res) => {
+  let allKeyData = await keyService.handleGetAllKeyService();
+  return res.status(200).json({
+    errorCode: allKeyData.errCode,
+    message: allKeyData.errMessage,
+    keys: allKeyData.keys ? allKeyData.keys : "",
+  });
+};
+
 module.exports = {
   handleCreateKeyController: handleCreateKeyController,
   handleUpdateKeyController: handleUpdateKeyController,
+  handleGetAllKeyController: handleGetAllKeyController,
 };
