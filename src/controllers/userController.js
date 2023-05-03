@@ -14,6 +14,7 @@ const handleLogin = async (req, res) => {
     errorCode: userData.errCode,
     message: userData.errMessage,
     user: userData.user ? userData.user : {},
+    token: userData.token,
   });
 };
 

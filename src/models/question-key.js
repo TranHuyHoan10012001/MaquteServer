@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   Keys.init(
     {
       questionId: DataTypes.STRING,
-      keyAnswer: DataTypes.JSON,
+      keyAnswer: DataTypes.STRING,
     },
     {
       sequelize,

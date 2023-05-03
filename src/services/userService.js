@@ -6,17 +6,25 @@ let handleUserLogin = (email, password) => {
       let isExist = await checkExistEmail(email);
       if (isExist) {
         let user = await db.User.findOne({
-          attributes: ["email", "id", "password"],
+          attributes: ["email", "id", "password", "firstName", "lastName"],
           where: {
             email: email,
           },
         });
         if (user) {
+          const generateToken = () => {
+            return Math.floor(
+              1000000000000000 + Math.random() * 9000000000000000
+            )
+              .toString(36)
+              .substr(0, 10);
+          };
           let hasPassword = await compareUserPassword(email, password);
           if (hasPassword) {
             userData.errCode = 0;
             userData.errMessage = "Ok";
             userData.user = user;
+            userData.token = generateToken();
           } else {
             userData.errCode = 3;
             userData.errMessage = "Wrong password";

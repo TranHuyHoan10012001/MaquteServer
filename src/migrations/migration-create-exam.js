@@ -18,7 +18,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       questions: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING,
       },
       timeLimit: {
@@ -28,6 +28,10 @@ module.exports = {
       maxScore: {
         allowNull: false,
         type: Sequelize.INTEGER,
+      },
+      file: {
+        allowNull: true,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

@@ -33,7 +33,37 @@ let handleGetAllExams = () => {
   });
 };
 
+let handleCreateExamService = (
+  subject,
+  category,
+  questions,
+  timeLimit,
+  maxScore,
+  file
+) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let newExamData = {};
+      let newExam = await db.Exam.create({
+        subject,
+        category,
+        questions,
+        timeLimit: 90,
+        maxScore: 10,
+        file,
+      });
+      newExamData.errCode = 200;
+      newExamData.errMessage = "Create exam successfully";
+      newExamData.exam = newExam;
+      resolve(newExamData);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = {
   handleGetExamByIdService: handleGetExamByIdService,
   handleGetAllExams: handleGetAllExams,
+  handleCreateExamService: handleCreateExamService,
 };

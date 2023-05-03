@@ -5,7 +5,13 @@ import questionController from "../controllers/questionController";
 import examController from "../controllers/examController";
 import keyController from "../controllers/keyController";
 import examAnalystController from "../controllers/examAnalyst";
+import examService from "../services/examService";
+import multer from "multer";
+var os = require("os");
+
 let router = express.Router();
+
+const uploadFile = multer({ dest: os.tmpdir() });
 
 let initWebRouter = (app) => {
   router.get("/", homeController.getHomePage);
@@ -39,6 +45,34 @@ let initWebRouter = (app) => {
   // Exam
   router.get(`/api/get-exam`, examController.handleGetExamByIdController);
   router.get("/api/list-exams", examController.handleGetAllExamsController);
+
+  //Exam Upload file
+  router.post(
+    "/api/create-exam",
+    uploadFile.single("file"),
+    async function (req, res) {
+      let subject = req.body.subject;
+      let category = req.body.category;
+      let questions = req.body.questions;
+      let timeLimit = req.body.timeLimit;
+      let maxScore = req.body.maxScore;
+      let file = req.file;
+      console.log("file: ", file);
+      let newExamData = await examService.handleCreateExamService(
+        subject,
+        category,
+        questions,
+        timeLimit,
+        maxScore,
+        file.originalname
+      );
+      return res.status(200).json({
+        errorCode: newExamData.errCode,
+        message: newExamData.errMessage,
+        exam: newExamData.exam ? newExamData.exam : "",
+      });
+    }
+  );
 
   // Key Answer
   router.post("/api/create-key", keyController.handleCreateKeyController);

@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       questions: DataTypes.STRING,
       timeLimit: DataTypes.INTEGER,
       maxScore: DataTypes.INTEGER,
+      file: DataTypes.STRING,
     },
     {
       sequelize,

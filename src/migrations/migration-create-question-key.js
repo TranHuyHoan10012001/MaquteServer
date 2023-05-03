@@ -15,7 +15,7 @@ module.exports = {
       },
       keyAnswer: {
         allowNull: false,
-        type: Sequelize.JSON,
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,

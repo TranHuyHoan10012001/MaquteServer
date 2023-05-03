@@ -1,16 +1,23 @@
 import db from "../models";
 
-let handleAddQuestionService = (content, subject, category, level) => {
+let handleAddQuestionService = (
+  content,
+  key,
+  subject,
+  category,
+  level,
+  author
+) => {
   return new Promise(async (resolve, reject) => {
     try {
       let newQuestionData = {};
       let newQuestion = await db.Questions.create({
         content: content,
-        key: "Trả lời đúng",
+        key: key,
         subject: subject,
         category: category,
         level: level,
-        author: "Hoan Tran",
+        author: author,
       });
       newQuestionData.errCode = 200;
       newQuestionData.errMessage = "Create question successfully";
