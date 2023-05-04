@@ -4,11 +4,15 @@ const handleAddQuestionController = async (req, res) => {
   let subject = req.body.subject;
   let category = req.body.category;
   let level = req.body.level;
+  let key = req.body.key;
+  let author = req.body.author;
   let newQuestionData = await questionService.handleAddQuestionService(
     content,
+    key,
     subject,
     category,
-    level
+    level,
+    author
   );
 
   if (!content || !subject || !category || !level) {
@@ -56,9 +60,32 @@ const handleDeleteQuestionController = async (req, res) => {
   return res.status(200).json(message);
 };
 
+const handleUpdateQuestionController = async (req, res) => {
+  let questionId = req.body.questionId;
+  let content = req.body.content;
+  let key = req.body.key;
+  let subject = req.body.subject;
+  let category = req.body.category;
+  let level = req.body.level;
+  let updateQuestionData = await questionService.handleUpdateQuestionService(
+    questionId,
+    content,
+    key,
+    subject,
+    category,
+    level
+  );
+  return res.status(200).json({
+    statusCode: updateQuestionData.statusCode,
+    message: updateQuestionData.message,
+    newQuestion: updateQuestionData.newQuestion,
+  });
+};
+
 module.exports = {
   handleAddQuestionController: handleAddQuestionController,
   handleGetAllQuestionController: handleGetAllQuestionController,
   handleGetQuestionByIdController: handleGetQuestionByIdController,
   handleDeleteQuestionController: handleDeleteQuestionController,
+  handleUpdateQuestionController: handleUpdateQuestionController,
 };

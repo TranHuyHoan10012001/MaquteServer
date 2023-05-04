@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
     cb(null, "uploads");
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + "-" + Date.now());
+    cb(null, file.originalname);
   },
 });
 
@@ -49,6 +49,10 @@ let initWebRouter = (app) => {
     "/api/delete-question",
     questionController.handleDeleteQuestionController
   );
+  router.patch(
+    "/api/update-question",
+    questionController.handleUpdateQuestionController
+  );
 
   // Exam
   router.get(`/api/get-exam`, examController.handleGetExamByIdController);
@@ -64,7 +68,7 @@ let initWebRouter = (app) => {
       let questions = req.body.questions;
       let timeLimit = req.body.timeLimit;
       let maxScore = req.body.maxScore;
-      let file = req.body.file;
+      let file = req.file;
       if (file) res.send(file);
       let newExamData = await examService.handleCreateExamService(
         subject,
@@ -72,7 +76,7 @@ let initWebRouter = (app) => {
         questions,
         timeLimit,
         maxScore,
-        file.name
+        file.originalname
       );
       const result = {
         errorCode: newExamData.errCode,
@@ -92,6 +96,7 @@ let initWebRouter = (app) => {
     "/api/update-question-key",
     keyController.handleUpdateKeyController
   );
+  router.get("/api/get-key-by-id", keyController.handleGetKeyByIdController);
 
   router.get("/api/list-keys", keyController.handleGetAllKeyController);
 
@@ -99,6 +104,11 @@ let initWebRouter = (app) => {
   router.post(
     "/api/create-exam-analyst",
     examAnalystController.handleCreateExamAnalystController
+  );
+
+  router.get(
+    "/api/get-analyst-by-id",
+    examAnalystController.handleGetAnalystByIdController
   );
 
   return app.use("/", router);

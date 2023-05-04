@@ -78,9 +78,43 @@ let handleGetQuestionByIdService = (id) => {
   });
 };
 
+let handleUpdateQuestionService = (
+  questionId,
+  content,
+  key,
+  subject,
+  category,
+  level
+) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let updateQuestionData = {};
+      let updateQuestion = await db.Questions.update(
+        {
+          content,
+          key,
+          subject,
+          category,
+          level,
+        },
+        {
+          where: { id: questionId },
+        }
+      );
+      updateQuestionData.statusCode = 200;
+      updateQuestionData.message = "Update successfully";
+      updateQuestionData.newQuestion = updateQuestion;
+      resolve(updateQuestionData);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = {
   handleAddQuestionService: handleAddQuestionService,
   handleGetAllQuestionService: handleGetAllQuestionService,
   handleGetQuestionByIdService: handleGetQuestionByIdService,
   handleDeleteQuestionService: handleDeleteQuestionService,
+  handleUpdateQuestionService: handleUpdateQuestionService,
 };

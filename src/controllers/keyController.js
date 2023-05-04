@@ -40,8 +40,19 @@ const handleGetAllKeyController = async (req, res) => {
   });
 };
 
+const handleGetKeyByIdController = async (req, res) => {
+  let questionId = req.query.questionId;
+  let keyData = await keyService.handleGetKeyByIdService(questionId);
+  return res.status(200).json({
+    statusCode: keyData.statusCode,
+    message: keyData.message,
+    keyAnswer: keyData.keyAnswer,
+  });
+};
+
 module.exports = {
   handleCreateKeyController: handleCreateKeyController,
   handleUpdateKeyController: handleUpdateKeyController,
   handleGetAllKeyController: handleGetAllKeyController,
+  handleGetKeyByIdController: handleGetKeyByIdController,
 };

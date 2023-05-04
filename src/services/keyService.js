@@ -55,8 +55,27 @@ let handleGetAllKeyService = () => {
     }
   });
 };
+
+let handleGetKeyByIdService = (questionId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let key = {};
+      key.keyAnswer = await db.Keys.findOne({
+        where: {
+          questionId: questionId,
+        },
+      });
+      key.statusCode = 200;
+      key.message = "Get key successfully";
+      resolve(key);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 module.exports = {
   handleCreateKeyService: handleCreateKeyService,
   handleUpdateKeyService: handleUpdateKeyService,
   handleGetAllKeyService: handleGetAllKeyService,
+  handleGetKeyByIdService: handleGetKeyByIdService,
 };

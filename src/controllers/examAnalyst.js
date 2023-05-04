@@ -21,6 +21,17 @@ const handleCreateExamAnalystController = async (req, res) => {
   });
 };
 
+const handleGetAnalystByIdController = async (req, res) => {
+  let examId = req.query.examId;
+  let analystData = await ExamAnalystService.getAnalystByIdService(examId);
+  return res.status(200).json({
+    statusCode: analystData.statusCode,
+    message: analystData.message,
+    keyAnswer: analystData.analyst,
+  });
+};
+
 module.exports = {
   handleCreateExamAnalystController: handleCreateExamAnalystController,
+  handleGetAnalystByIdController: handleGetAnalystByIdController,
 };

@@ -26,6 +26,25 @@ let handleCreateCommentService = (
   });
 };
 
+let getAnalystByIdService = (examId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let analyst = {};
+      analyst.analyst = await db.ExamAnalysts.findAll({
+        where: {
+          examId: examId,
+        },
+      });
+      analyst.statusCode = 200;
+      analyst.message = "Get key successfully";
+      resolve(analyst);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = {
   handleCreateCommentService: handleCreateCommentService,
+  getAnalystByIdService: getAnalystByIdService,
 };
